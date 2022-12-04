@@ -1,27 +1,36 @@
 #include <iostream>
 #include <algorithm>
+#include <random>
+#include <vector>
+#include <ctime>
+#include <chrono>
 
 using namespace std;
 
 // Lomuto scheme
-int partition(int array[], int left, int right) {
+int partition(vector<int> &array, int left, int right) {
     int x = array[right];
     int x_index = left;
+    int tmp;
 
     for (int i = left; i < right; i++) {
         if (array[i] <= x) {
-            swap(array[i], array[x_index]);
+            tmp = array[i];
+            array[i] = array[x_index];
+            array[x_index] = tmp;
             x_index++;
         }
     }
 
-    swap(array[x_index], array[right]);
+    tmp = array[x_index];
+    array[x_index] = array[right];
+    array[right] = tmp;
 
     return x_index;
 }
 
 
-void quicksort(int array[], int left, int right) {
+void quicksort(vector<int> &array, int left, int right) {
     if (left >= right) {
         return;
     }
@@ -30,20 +39,41 @@ void quicksort(int array[], int left, int right) {
 
     quicksort(array, left, x_ind - 1);
     quicksort(array, x_ind + 1, right);
-
-    return;
 }
 
 
 int main() {
-    int array[] = {9, -3, 5, 2, 6, 8, -6, 1, 3};
-    int n = sizeof(array);
+    float average_time = 0;
+    for (int j = 0; j < 5; j++) {
+        random_device rd;
+        mt19937 gen(rd());
 
-    quicksort(array, 0, n - 1);
+        int n = 1e8;
+        uniform_int_distribution<> dist(1, n);
+        vector<int> array;
+        for (int i = 0; i < n; i++) {
+            array.push_back(dist(gen));
+        }
 
-    for (int i = 0; i < n; i++) {
-        cout << array[i] << " ";
+        time_t now = time(nullptr);
+        tm *start_time = localtime(&now);
+        int start_seconds_time = start_time->tm_hour * 3600 + start_time->tm_min * 60 + start_time->tm_sec;
+        cout << "Start Time: " << start_time->tm_hour << ":" << start_time->tm_min << ":" << start_time->tm_sec << endl;
+
+        quicksort(array, 0, n - 1);
+
+        now = time(nullptr);
+        tm *end_time = localtime(&now);
+        cout << "End Time: " << end_time->tm_hour << ":" << end_time->tm_min << ":" << end_time->tm_sec << endl;
+
+        int end_second_time = end_time->tm_hour * 3600 + end_time->tm_min * 60 + end_time->tm_sec;
+        int work_time = end_second_time - start_seconds_time;
+        cout << work_time << endl;
+
+        average_time += float(work_time);
     }
+
+    cout << "Average seq time: " << average_time / 5 << endl;
 
     return 0;
 }
