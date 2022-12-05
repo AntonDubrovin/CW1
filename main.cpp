@@ -9,7 +9,6 @@
 
 using namespace std;
 
-// Lomuto scheme
 int partition(vector<int> &array, int left, int right) {
     int x = array[right];
     int x_index = left;
