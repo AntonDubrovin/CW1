@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// Lomuto scheme
 int partition(vector<int> &array, int left, int right) {
     int x = array[right];
     int x_index = left;
@@ -98,6 +99,15 @@ int main() {
         cout << "Work " << j << "Seq Time: " << work_seq_time << endl;
 
         average_seq_time += float(work_seq_time);
+
+        bool seq_flag = true;
+        for (int i = 1; i < 10e18; i++) {
+            if (seq_array[i] < seq_array[i - 1]) {
+                seq_flag = false;
+                break;
+            }
+        }
+        cout << "Is seq array sorted: " << seq_flag << endl;
         // seq algo
         // par algo
         now = time(nullptr);
@@ -120,6 +130,15 @@ int main() {
         cout << "Work " << j << " Par Time: " << work_par_time << endl;
 
         average_par_time += float(work_par_time);
+
+        bool par_flag = true;
+        for (int i = 1; i < 10e18; i++) {
+            if (par_array[i] < par_array[i - 1]) {
+                par_flag = false;
+                break;
+            }
+        }
+        cout << "Is par array sorted: " << par_flag << endl;
         //par algo
 
     }
