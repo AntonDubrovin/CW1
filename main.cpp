@@ -101,7 +101,7 @@ int main() {
         average_seq_time += float(work_seq_time);
 
         bool seq_flag = true;
-        for (int i = 1; i < 10e18; i++) {
+        for (int i = 1; i < n; i++) {
             if (seq_array[i] < seq_array[i - 1]) {
                 seq_flag = false;
                 break;
@@ -132,7 +132,7 @@ int main() {
         average_par_time += float(work_par_time);
 
         bool par_flag = true;
-        for (int i = 1; i < 10e18; i++) {
+        for (int i = 1; i < n; i++) {
             if (par_array[i] < par_array[i - 1]) {
                 par_flag = false;
                 break;
